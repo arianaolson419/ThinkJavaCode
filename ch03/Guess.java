@@ -14,6 +14,6 @@ public class Guess {
 		guess = in.nextInt();
 		System.out.printf("Your guess is: %d\n", guess);
 		System.out.printf("The number I was thinking of is: %d\n", answer);
-		System.out.printf("You were off by: %d\n", guess - answer);
+		System.out.printf("You were off by: %d\n", Math.abs(guess - answer));
 	}
 }
