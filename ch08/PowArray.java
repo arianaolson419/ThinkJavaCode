@@ -7,6 +7,7 @@ public class PowArray {
 		int[] scores = randomArray(10);
 		System.out.println(Arrays.toString(scores));
 		System.out.println(Arrays.toString(histogram(scores, 10)));
+		System.out.println(indexOfMax(scores));
 	}
 
 	public static double[] powArray(double[] a, int n) {
@@ -33,5 +34,19 @@ public class PowArray {
 		}
 
 		return counts;
+	}
+
+	public static int indexOfMax(int[] array) {
+		int index = -1;
+		int value = 0;
+
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] > value) {
+				index = i;
+				value = array[i];
+			}
+		}
+
+		return index;
 	}
 }
