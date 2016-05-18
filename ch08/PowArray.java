@@ -4,10 +4,14 @@ import java.util.Random;
 public class PowArray {
 	public static void main(String[] args) {
 		double[] a = {4, 8, 1, 2};
+		int[] numbers = {1, 2, 4};
 		int[] scores = randomArray(10);
 		System.out.println(Arrays.toString(scores));
 		System.out.println(Arrays.toString(histogram(scores, 10)));
 		System.out.println(indexOfMax(scores));
+		System.out.println(Arrays.toString(sieve(5)));
+		System.out.println(areFactors(15, numbers));
+		System.out.println(arePrimeFactors(16, numbers));
 	}
 
 	public static double[] powArray(double[] a, int n) {
@@ -48,5 +52,56 @@ public class PowArray {
 		}
 
 		return index;
+	}
+
+	public static boolean[] sieve(int n) {
+		boolean[] a = new boolean[n + 1];
+		Arrays.fill(a, true);
+		a[0] = true;
+		a[1] = true;
+
+		if (n > 1) {
+			for (int i = 2; (double) i <= Math.sqrt(n); i++) {
+				if (a[i]) {
+					int k = 0;
+					for (int j = i*i + k; j <= n; j *= k) {
+						a[j] = false;
+						k++;	
+					}
+				}
+			}
+		}
+
+		return a;
+	}
+
+	public static boolean areFactors(int n, int[] numbers) {
+		boolean flag = true;
+		for (int i = 0; i < numbers.length; i++) {
+			if (n % numbers[i] != 0) {
+				flag = false;
+				break;
+			}
+		}
+
+		return flag;
+	}
+
+	public static boolean arePrimeFactors(int n, int[] numbers) {
+		boolean[] primes;
+		if (areFactors(n, numbers)) {
+			primes = sieve(n);
+
+			for (int i = 0; i < numbers.length; i++) {
+				if (!primes[numbers[i]]) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		else {
+			return false;
+		}
 	}
 }
