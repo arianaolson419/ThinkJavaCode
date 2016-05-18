@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class RecurseArrays {
 	public static void main(String[] args) {
 		int[] array = {1, 5, 6, 8, 2, 4, 5, 10};
