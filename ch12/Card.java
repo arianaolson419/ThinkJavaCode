@@ -35,10 +35,22 @@ public class Card {
             return 1;
         }
         if (this.rank < that.rank) {
-            return -1;
+            if (this.rank == 0 && that.rank == 13) {
+                return 1;
+            }
+
+            else{
+                return -1;
+            }
         }
         if (this.rank > that.rank) {
-            return 1;
+            if (this.rank == 13 && that.rank == 0) {
+                return -1;
+            }
+
+            else {
+                return 1;
+            }
         }
         return 0;
     }
@@ -80,4 +92,40 @@ public class Card {
         return RANKS[this.rank] + " of " + SUITS[this.suit];
     }
 
+    public Card[] makeDeck() {
+        Card[] deck = new Card[52];
+        int index = 0;
+        for (int suit = 0; suit < SUITS.length; suit++) {
+            for (int rank = 1; rank < RANKS.length; rank++) {
+                deck[index] = new Card(rank, suit);
+                index++;
+            }
+        }
+        return deck;
+    }
+
+    public int[] suitHist(Card[] hand) {
+        int[] hist = new int[4];
+
+        for (int i = 0; i < hand.length; i++) {
+            hist[hand[i].suit]++;
+        }
+
+        return hist;
+    }
+
+    public boolean hasFlush(Card[] hand) {
+        int[] hist = suitHist(hand);
+        
+        for (int i = 0; i < hist.length; i++) {
+            if (hist[i] >= 5) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    
 }
+

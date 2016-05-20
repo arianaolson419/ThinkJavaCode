@@ -20,6 +20,7 @@ public class CardTable extends Canvas {
 
         // create a 2-D array of card images
         images = new Image[14][4];
+        String cardset = "cardset-oxymoron";
         String suits = "cdhs";
 
         for (int suit = 0; suit <= 3; suit++) {
