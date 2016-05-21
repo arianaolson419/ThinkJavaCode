@@ -7,6 +7,7 @@ import java.util.Random;
 public class Deck {
 
     private Card[] cards;
+    private Random r = new Random();
 
     /**
      * Constructs a standard deck of 52 cards.
@@ -56,19 +57,28 @@ public class Deck {
      * Chooses a random number between low and high, including both.
      */
     public int randomInt(int low, int high) {
-        return 0;
+        return r.nextInt(low) + (high - low);
     }
 
     /**
      * Swaps the cards at indexes i and j.
      */
     public void swapCards(int i, int j) {
+        Card c1 = this.cards[i];
+        Card c2 = this.cards[j];
+        this.cards[i] = c2;
+        this.cards[j] = c1;
     }
 
     /**
      * Randomly permutes the array of cards.
      */
     public void shuffle() {
+        int deckSize = this.cards.length;
+        for (int i = 0; i < deckSize; i++) {
+            swapCards(randomInt(0, deckSize - 1),
+                randomInt(0, deckSize - 1));
+        }
     }
 
     /**
@@ -76,13 +86,29 @@ public class Deck {
      * between low and high inclusive.
      */
     public int indexLowest(int low, int high) {
-        return 0;
+        int index = low;
+        for (int i = low + 1; i <= high; i++) {
+            if (this.cards[i].compareTo(this.cards[index]) == -1) {
+                index = i;
+            }
+        }
+
+        return index;
     }
 
     /**
      * Sorts the cards (in place) using selection sort.
      */
     public void selectionSort() {
+        int index;
+        int deckSize = this.cards.length;
+
+        for (int i = 0; i < deckSize; i++) {
+            index = indexLowest(i, deckSize - 1);
+            if (index != i) {
+                swapCards(i, index);
+            }
+        }
     }
 
     /**
