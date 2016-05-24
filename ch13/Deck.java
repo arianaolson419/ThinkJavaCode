@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.lang.StringBuilder;
 
 /**
  * A deck of playing cards (of fixed size).
@@ -50,14 +51,21 @@ public class Deck {
      * Returns a string representation of the deck.
      */
     public String toString() {
-        return Arrays.toString(this.cards);
+        StringBuilder deckStringBuilder = new StringBuilder();
+        for (Card card : this.cards) {
+            deckStringBuilder.append(card);
+            deckStringBuilder.append('\n');
+        }
+
+        deckStringBuilder.deleteCharAt(deckStringBuilder.lastIndexOf("\n"));
+        return deckStringBuilder.toString();
     }
 
     /**
      * Chooses a random number between low and high, including both.
      */
     public int randomInt(int low, int high) {
-        return r.nextInt(low) + (high - low);
+        return low + r.nextInt(high);
     }
 
     /**
@@ -75,7 +83,7 @@ public class Deck {
      */
     public void shuffle() {
         int deckSize = this.cards.length;
-        for (int i = 0; i < deckSize; i++) {
+        for (int i = 0; i < deckSize * 7; i++) {
             swapCards(randomInt(0, deckSize - 1),
                 randomInt(0, deckSize - 1));
         }
@@ -126,20 +134,74 @@ public class Deck {
      * Combines two previously sorted subdecks.
      */
     public static Deck merge(Deck d1, Deck d2) {
-        return null;
+        Deck result = new Deck(d1.cards.length + d2.cards.length);
+        int i = 0; // index of d1
+        int j = 0; // index of d2
+        int maxIndex1 = d1.cards.length;
+        int maxIndex2 = d2.cards.length;
+        for (int k = 0; k < result.cards.length; k++) {
+            if (i >= maxIndex1) {
+                result.cards[k] = d2.cards[j];
+                j++;
+            }
+
+            else if (j >= maxIndex2) {
+                result.cards[k] = d1.cards[i];
+                i++;
+            }
+
+            else {
+                if (d1.cards[i].compareTo(d2.cards[j]) <= 0) {
+                    result.cards[k] = d1.cards[i];
+                    i++;
+                }
+
+                else if (d1.cards[i].compareTo(d2.cards[j]) > 0) {
+                    result.cards[k] = d2.cards[j];
+                    j++;
+                }
+            }
+        }
+
+        return result;
     }
 
     /**
      * Returns a sorted copy of the deck using merge sort.
      */
     public Deck mergeSort() {
-        return this;
+        int middle;
+        Deck d1;
+        Deck d2;
+        Deck result;
+
+        if (this.cards.length <= 1) {
+            return this;
+        }
+        else {
+            middle = this.cards.length/2;
+            d1 = this.subdeck(0, middle-1);
+            d1 = d1.mergeSort();
+            d2 = this.subdeck(middle, this.cards.length - 1);
+            d2 = d2.mergeSort();
+            result = merge(d1, d2);
+            return result;
+        }
     }
 
     /**
      * Reorders the cards (in place) using insertion sort.
      */
     public void insertionSort() {
+        if (this.cards.length > 1) {
+            for (int i = 1; i < this.cards.length; i++) {
+                for (int k = i; k > 0; k--) {
+                    if (this.cards[k].compareTo(this.cards[k-1]) < 0) {
+                        swapCards(k-1, k);
+                    }
+                }
+            } 
+        }
     }
 
 }
