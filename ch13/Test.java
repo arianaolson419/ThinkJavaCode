@@ -9,8 +9,8 @@ public class Test {
     public static void checkSorted(Deck deck) {
         Card[] cards = deck.getCards();
         for (int i = 0; i < cards.length - 1; i++) {
-            if (cards[i].compareTo(cards[i + 1]) >= 0) {
-                System.out.println("Card #" + i + " not sorted!");
+            if (cards[i].compareTo(cards[i + 1]) > 0) {
+                System.out.println("Card #" + i + " not sorted!" + cards[i].compareTo(cards[i + 1]));
             }
         }
     }
@@ -19,8 +19,8 @@ public class Test {
      * Demonstrates how to call the sorting methods.
      */
     public static void main(String[] args) {
-        Deck deck;
-
+        Deck deck = new Deck();
+        Card[] cards = deck.getCards();
         System.out.println("Testing selection...");
         deck = new Deck();
         deck.shuffle();
@@ -38,6 +38,7 @@ public class Test {
         deck.shuffle();
         deck.insertionSort();
         checkSorted(deck);
+
     }
 
 }
